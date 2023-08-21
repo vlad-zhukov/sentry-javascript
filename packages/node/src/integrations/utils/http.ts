@@ -199,6 +199,13 @@ export function normalizeRequestArgs(
     /* eslint-enable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any */
   }
 
+  if (!requestOptions.pathname || !requestOptions.search) {
+    const parsed = new URL(requestOptions.path, requestOptions.protocol + '//' + requestOptions.hostname)
+    requestOptions.pathname = parsed.pathname
+    requestOptions.search = parsed.search
+    requestOptions.hash = parsed.hash
+  }
+
   // return args in standardized form
   if (callback) {
     return [requestOptions, callback];
